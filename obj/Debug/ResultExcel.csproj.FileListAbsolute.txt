@@ -18,5 +18,3 @@ D:\ResultExcel\bin\Debug\Newtonsoft.Json.xml
 D:\ResultExcel\bin\Debug\HtmlAgilityPack.dll
 D:\ResultExcel\bin\Debug\HtmlAgilityPack.pdb
 D:\ResultExcel\bin\Debug\HtmlAgilityPack.xml
-D:\ResultExcel\obj\Debug\ResultExcel.SubForm.Copy.resources
-D:\ResultExcel\obj\Debug\ResultExcel.Form2.resources
