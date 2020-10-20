@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResultExcel.Class
+﻿namespace ResultExcel.Class
 {
     public class Block
     {
@@ -18,6 +12,7 @@ namespace ResultExcel.Class
         public string Comment { get; set; }
         public string Note { get; set; }
         public string NoteContent { get; set; }
+
         public string toString()
         {
             return HtmlNo + '\n' + Success + '\n' + SuccessContent + '\n' + Fail + '\n' + FailContent + '\n' + Sheet + '\n' + Cell + '\n' + Comment + '\n' + Note + '\n' + NoteContent;

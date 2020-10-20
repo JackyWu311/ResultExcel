@@ -1,19 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Microsoft.Office.Interop.Excel;
+using Newtonsoft.Json;
 using ResultExcel.Class;
 using ResultExcel.Component;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
-using Point = System.Drawing.Point;
-using HtmlAgilityPack;
-using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Interop.Excel;
-using DataTable = System.Data.DataTable;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using DataTable = System.Data.DataTable;
+
+using Excel = Microsoft.Office.Interop.Excel;
+
+using Point = System.Drawing.Point;
 
 namespace ResultExcel
 {
@@ -200,7 +201,7 @@ namespace ResultExcel
             Process[] excelProcesses = Process.GetProcessesByName("excel");
             foreach (Process p in excelProcesses)
             {
-                // use MainWindowTitle to distinguish this excel process with other excel processes 
+                // use MainWindowTitle to distinguish this excel process with other excel processes
                 if (string.IsNullOrEmpty(p.MainWindowTitle))
                 {
                     p.Kill();
@@ -355,8 +356,10 @@ namespace ResultExcel
         }
 
         #region 右鍵關閉tab (請勿刪除)
+
         private ContextMenuStrip _CMS;
         private Point _lastClickPos;
+
         //右鍵關閉tab
         private void tabControl1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -375,6 +378,7 @@ namespace ResultExcel
             CMS.Items.Add("Close", null, new EventHandler(Item_Clicked));
             return CMS;
         }
+
         //右鍵關閉tab
         private void Item_Clicked(object sender, EventArgs e)
         {
@@ -388,7 +392,6 @@ namespace ResultExcel
             }
         }
 
-        #endregion
-
+        #endregion 右鍵關閉tab (請勿刪除)
     }
 }

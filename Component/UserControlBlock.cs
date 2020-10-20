@@ -1,14 +1,13 @@
-﻿using System;
+﻿using ResultExcel.Class;
+using System;
 using System.Windows.Forms;
-using ResultExcel.Class;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace ResultExcel.Component
 {
     public partial class UserControlBlock : UserControl
     {
         public event Action<Block> ReturnBlock;
+
         public UserControlBlock()
         {
             InitializeComponent();
@@ -98,8 +97,8 @@ namespace ResultExcel.Component
             label2.Text = id.ToString();
         }
 
+        public bool Selected = false;
 
-        public bool Selected=false;
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Selected = checkBox1.Checked;

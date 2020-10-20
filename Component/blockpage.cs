@@ -1,12 +1,8 @@
-﻿using System;
+﻿using ResultExcel.Class;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using System.IO;
-using ResultExcel.Class;
-using Newtonsoft.Json;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 
 namespace ResultExcel.Component
 {
@@ -225,9 +221,9 @@ namespace ResultExcel.Component
                     userControlBlocks.Add(userControlBlock);
                     userControlBlock.SetCheckbox(false);
                 }
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    foreach(UserControlBlock userControlBlock in userControlBlocks)
+                    foreach (UserControlBlock userControlBlock in userControlBlocks)
                     {
                         //只複製4個必填欄位
                         UserControlBlock_ReturnBlock(userControlBlock.GetBlock_Success_Fail_Sheet_Note());
