@@ -128,9 +128,11 @@
             this.HtmltextBox.AllowDrop = true;
             this.HtmltextBox.Location = new System.Drawing.Point(3, 3);
             this.HtmltextBox.Name = "HtmltextBox";
+            this.HtmltextBox.ReadOnly = true;
             this.HtmltextBox.Size = new System.Drawing.Size(413, 22);
             this.HtmltextBox.TabIndex = 0;
             this.HtmltextBox.TabStop = false;
+            this.HtmltextBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HtmltextBox_MouseDoubleClick);
             // 
             // Excelbutton
             // 
@@ -149,9 +151,11 @@
             this.ExceltextBox.AllowDrop = true;
             this.ExceltextBox.Location = new System.Drawing.Point(3, 31);
             this.ExceltextBox.Name = "ExceltextBox";
+            this.ExceltextBox.ReadOnly = true;
             this.ExceltextBox.Size = new System.Drawing.Size(413, 22);
             this.ExceltextBox.TabIndex = 1;
             this.ExceltextBox.TabStop = false;
+            this.ExceltextBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ExceltextBox_MouseDoubleClick);
             // 
             // Htmlbutton
             // 

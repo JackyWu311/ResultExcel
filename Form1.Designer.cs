@@ -37,8 +37,8 @@
             this.編輯EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WriteExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.blockpage1 = new ResultExcel.Component.blockpage();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -106,7 +106,7 @@
             // WriteExcel
             // 
             this.WriteExcel.Name = "WriteExcel";
-            this.WriteExcel.Size = new System.Drawing.Size(180, 22);
+            this.WriteExcel.Size = new System.Drawing.Size(129, 22);
             this.WriteExcel.Text = "寫入Excel";
             this.WriteExcel.Click += new System.EventHandler(this.WriteExcel_Click);
             // 
@@ -121,6 +121,16 @@
             this.tabPage1.Text = "NewScript";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // blockpage1
+            // 
+            this.blockpage1.AllowDrop = true;
+            this.blockpage1.BackColor = System.Drawing.Color.White;
+            this.blockpage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.blockpage1.Location = new System.Drawing.Point(3, 3);
+            this.blockpage1.Name = "blockpage1";
+            this.blockpage1.Size = new System.Drawing.Size(787, 666);
+            this.blockpage1.TabIndex = 0;
+            // 
             // tabControl1
             // 
             this.tabControl1.AllowDrop = true;
@@ -133,15 +143,6 @@
             this.tabControl1.TabIndex = 2;
             this.tabControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseClick);
             // 
-            // blockpage1
-            // 
-            this.blockpage1.BackColor = System.Drawing.Color.White;
-            this.blockpage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.blockpage1.Location = new System.Drawing.Point(3, 3);
-            this.blockpage1.Name = "blockpage1";
-            this.blockpage1.Size = new System.Drawing.Size(787, 666);
-            this.blockpage1.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -150,10 +151,11 @@
             this.ClientSize = new System.Drawing.Size(801, 722);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(817, 626);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Result 回填";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage1.ResumeLayout(false);

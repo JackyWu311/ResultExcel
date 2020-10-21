@@ -1,6 +1,7 @@
 ﻿using ResultExcel.Class;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -241,6 +242,40 @@ namespace ResultExcel.Component
         {
             if (!(char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
                 e.Handled = true;
+        }
+
+        /// <summary>
+        /// 點2下打開HTML
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HtmltextBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (File.Exists(HtmltextBox.Text))
+            {
+                System.Diagnostics.Process.Start(HtmltextBox.Text);
+            }
+            else
+            {
+                MessageBox.Show("找不到HTML\n" + HtmltextBox.Text);
+            }
+        }
+
+        /// <summary>
+        /// 點2下打開Excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExceltextBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (File.Exists(ExceltextBox.Text))
+            {
+                System.Diagnostics.Process.Start(ExceltextBox.Text);
+            }
+            else
+            {
+                MessageBox.Show("找不到Excel\n" + ExceltextBox.Text);
+            }
         }
     }
 }

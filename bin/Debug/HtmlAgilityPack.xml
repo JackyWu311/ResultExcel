@@ -380,6 +380,11 @@
             Defines the default stream encoding to use. Default is System.Text.Encoding.Default.
             </summary>
         </member>
+        <member name="F:HtmlAgilityPack.HtmlDocument.OptionXmlForceOriginalComment">
+            <summary>
+            Force to take the original comment instead of creating it
+            </summary>
+        </member>
         <member name="F:HtmlAgilityPack.HtmlDocument.OptionExtractErrorSourceText">
             <summary>
             Defines if source text must be extracted while parsing errors.

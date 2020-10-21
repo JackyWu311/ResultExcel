@@ -139,9 +139,12 @@ namespace ResultExcel
                         if (worksheet.Range[block.Cell].Value2 == null)
                         {
                             worksheet.Range[block.Cell].Value2 = (block.Success + ", " + block.SuccessContent);
-                            worksheet.Range[block.Cell].ClearComments();  //一定要清除註解，不然寫入會出錯
-                            worksheet.Range[block.Cell].AddComment(block.Comment);
-                            worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            if (block.Comment != "")
+                            {
+                                worksheet.Range[block.Cell].ClearComments();  //一定要清除註解，不然寫入會出錯
+                                worksheet.Range[block.Cell].AddComment(block.Comment);
+                                worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            }
                             worksheet.Range[block.Note].Value2 = (block.NoteContent);
                             UsedSuccessString.Add(block.Success); //將使用過的Success字眼存著
                         }
@@ -154,9 +157,12 @@ namespace ResultExcel
                         if (worksheet.Range[block.Cell].Value2 == null || UsedSuccessString.Contains(((string)worksheet.Range[block.Cell].Value2).Split(',')[0]))
                         {
                             worksheet.Range[block.Cell].Value2 = (block.Fail + ", " + block.FailContent);
-                            worksheet.Range[block.Cell].ClearComments();  //一定要清除註解，不然寫入會出錯
-                            worksheet.Range[block.Cell].AddComment(block.Comment);
-                            worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            if (block.Comment != "")
+                            {
+                                worksheet.Range[block.Cell].ClearComments();  //一定要清除註解，不然寫入會出錯
+                                worksheet.Range[block.Cell].AddComment(block.Comment);
+                                worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            }
                             worksheet.Range[block.Note].Value2 = block.NoteContent;
                             UsedFailString.Add(block.Fail);
                         }
@@ -164,10 +170,13 @@ namespace ResultExcel
                         else if (UsedFailString.Contains(((string)worksheet.Range[block.Cell].Value2).Split(',')[0]))
                         {
                             worksheet.Range[block.Cell].Value2 = (worksheet.Range[block.Cell].Value2 + "\n" + block.FailContent);//續寫
-                            string temp = worksheet.Range[block.Cell].Comment.Text(); //先取出註解
-                            worksheet.Range[block.Cell].ClearComments();  //清除註解，不然寫入會出錯
-                            worksheet.Range[block.Cell].AddComment(temp + "\n" + block.Comment);//續寫
-                            worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            if (block.Comment != "")
+                            {
+                                string temp = worksheet.Range[block.Cell].Comment.Text(); //先取出註解
+                                worksheet.Range[block.Cell].ClearComments();  //清除註解，不然寫入會出錯
+                                worksheet.Range[block.Cell].AddComment(temp + "\n" + block.Comment);//續寫
+                                worksheet.Range[block.Cell].Comment.Shape.TextFrame.AutoSize = true;
+                            }
                             worksheet.Range[block.Note].Value2 = worksheet.Range[block.Note].Value2 + "\n" + block.NoteContent;
                             UsedFailString.Add(block.Fail);
                         }

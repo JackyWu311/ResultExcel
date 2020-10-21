@@ -210,7 +210,7 @@
             this.textBox4.Location = new System.Drawing.Point(118, 136);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 27);
-            this.textBox4.TabIndex = 2;
+            this.textBox4.TabIndex = 6;
             // 
             // label8
             // 
@@ -237,7 +237,7 @@
             this.richTextBox2.Location = new System.Drawing.Point(297, 74);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(266, 56);
-            this.richTextBox2.TabIndex = 6;
+            this.richTextBox2.TabIndex = 5;
             this.richTextBox2.Text = "";
             // 
             // label6
@@ -263,7 +263,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(297, 5);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(266, 56);
-            this.richTextBox1.TabIndex = 4;
+            this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
             // textBox3
@@ -273,7 +273,7 @@
             this.textBox3.Location = new System.Drawing.Point(118, 85);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 27);
-            this.textBox3.TabIndex = 5;
+            this.textBox3.TabIndex = 4;
             // 
             // textBox2
             // 
@@ -282,7 +282,7 @@
             this.textBox2.Location = new System.Drawing.Point(118, 31);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 27);
-            this.textBox2.TabIndex = 3;
+            this.textBox2.TabIndex = 2;
             // 
             // label4
             // 
