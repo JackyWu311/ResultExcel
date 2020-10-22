@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.htmltextBox = new System.Windows.Forms.TextBox();
             this.exceltextBox = new System.Windows.Forms.TextBox();
             this.scripttextBox = new System.Windows.Forms.TextBox();
@@ -38,9 +39,9 @@
             this.runbutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@
             this.htmltextBox.ReadOnly = true;
             this.htmltextBox.Size = new System.Drawing.Size(547, 27);
             this.htmltextBox.TabIndex = 0;
+            this.htmltextBox.Text = "C:\\Users\\jackywu20050\\Desktop\\sample.html";
             this.htmltextBox.DoubleClick += new System.EventHandler(this.htmltextBox_DoubleClick);
             // 
             // exceltextBox
@@ -66,6 +68,7 @@
             this.exceltextBox.ReadOnly = true;
             this.exceltextBox.Size = new System.Drawing.Size(546, 27);
             this.exceltextBox.TabIndex = 1;
+            this.exceltextBox.Text = "C:\\Users\\jackywu20050\\Desktop\\test.xlsx";
             this.exceltextBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.exceltextBox_MouseDoubleClick);
             // 
             // scripttextBox
@@ -165,6 +168,26 @@
             this.panel1.Size = new System.Drawing.Size(652, 208);
             this.panel1.TabIndex = 9;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(35, 53);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 16);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Sheet";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Close;
+            this.comboBox1.Location = new System.Drawing.Point(92, 50);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(546, 24);
+            this.comboBox1.TabIndex = 9;
+            // 
             // richTextBox1
             // 
             this.richTextBox1.AutoWordSelection = true;
@@ -178,26 +201,6 @@
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
-            // comboBox1
-            // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Close;
-            this.comboBox1.Location = new System.Drawing.Point(92, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(546, 24);
-            this.comboBox1.TabIndex = 9;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 53);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 16);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Sheet";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 16F);
@@ -206,6 +209,7 @@
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "Form1";
             this.Text = "Result 回填";

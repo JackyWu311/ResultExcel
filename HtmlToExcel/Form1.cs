@@ -1,4 +1,7 @@
-﻿using OfficeOpenXml;
+﻿using HtmlAgilityPack;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using ResultExcel.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -44,11 +48,11 @@ namespace HtmlToExcel
                 comboBox1.Items.Clear();
                 using (ExcelPackage excelPackage = new ExcelPackage(file))
                 {
-                    foreach(ExcelWorksheet excelWorksheet in excelPackage.Workbook.Worksheets)
+                    foreach (ExcelWorksheet excelWorksheet in excelPackage.Workbook.Worksheets)
                     {
                         comboBox1.Items.Add(excelWorksheet.Name);
                     }
-                    if(comboBox1.Items.Count>0) //有工作表就顯示
+                    if (comboBox1.Items.Count > 0) //有工作表就顯示
                         comboBox1.SelectedItem = comboBox1.Items[0];
                 }
             }
@@ -67,7 +71,7 @@ namespace HtmlToExcel
             }
             else
             {
-                MessageBox.Show("找不到Script\n"+scripttextBox.Text);
+                MessageBox.Show("找不到Script\n" + scripttextBox.Text);
             }
         }
 
@@ -157,41 +161,160 @@ namespace HtmlToExcel
         /// <param name="e"></param>
         private void runbutton_Click(object sender, EventArgs e)
         {
+            if (!CheckTextboxNull_or_NoSuchFile()) //先檢查textbox內容
+                return;
+            //紀錄開始時間
+            DateTime time = DateTime.Now;
+            //開啟Script excel
+            using (ExcelPackage ScriptPackage = new ExcelPackage(new FileInfo(scripttextBox.Text)))
+            {
+                //要讀取的HTML欄位
+                int Htmlcolumn = int.Parse(htmlcolumntextBox.Text);
+                //指定ComboBox所選的Sheet
+                ExcelWorksheet ScriptWorksheet = ScriptPackage.Workbook.Worksheets[comboBox1.Text];
+                richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") + "\nScript: " + scripttextBox.Text + "\nScript Sheet: " + ScriptWorksheet.Name + "\nExcel: " + exceltextBox.Text + "\nHTML: " + htmltextBox.Text + "\nHTML Column: " + Htmlcolumn + "\n-------------------------------------------------------------------\nStart Writing:\n";
+
+                //讀取指定的Html column並傳回dataTable
+                DataTable dataTable = GetHtmlTable(htmltextBox.Text);
+
+                //開啟目標Excel
+                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(exceltextBox.Text)))
+                {
+                    //要寫入的Excel的工作表清單
+                    ExcelWorksheets excelWorksheets = excelPackage.Workbook.Worksheets;
+                    //紀錄一些字串
+                    List<string> HTMLSuccessString = new List<string> { "Success", "sucess", "Pass", "pass" };
+                    List<string> HTMLFailString = new List<string> { "Fail", "fail", "Skip", "skip", "Stop", "stop" };
+                    List<string> UsedSuccessString = new List<string>();  //紀錄寫入過的Success字眼
+                    List<string> UsedFailString = new List<string>(); //紀錄寫入過的Fail字眼
+
+                    for (int row = 2; row <= ScriptWorksheet.Dimension.Rows; row++)
+                    {
+                        //如果HtmlNo大於實際HTML Row則Continue不寫入
+                        if (int.Parse(ScriptWorksheet.Cells[row, 1].Text) > dataTable.Rows.Count - 1)
+                        {
+                            richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 1].ToString() + "]" + " HtmlNo." + ScriptWorksheet.Cells[row, 1].Text + "大於實際HTML欄位" + (dataTable.Rows.Count - 1) + "\n");
+                            continue;
+                        }
+                        //檢查目標excel是否含有script中的sheet
+                        if (!excelWorksheets.Any(sheet => sheet.Name == ScriptWorksheet.Cells[row, 2].Text))
+                        {
+                            richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 2].ToString() + "]" + " Sheet." + ScriptWorksheet.Cells[row, 2].Text + "不在 " + excelPackage.File.Name + " 中\n");
+                            continue;
+                        }
+                        //開始寫入
+                        //如果讀到HTML Success
+                        if (HTMLSuccessString.Contains((string)dataTable.Rows[int.Parse(ScriptWorksheet.Cells[row, 1].Text)][Htmlcolumn - 1]))
+                        {
+                            ExcelWorksheet excelWorksheet = excelWorksheets[ScriptWorksheet.Cells[row, 2].Text];
+                            //如果是空欄位才寫入Success所有內容，否則跳過
+                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text] == null)
+                            {
+                                //寫入Success以及附加內容
+                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 4].Text + ", " + ScriptWorksheet.Cells[row, 5].Text;
+                                //script註解欄有值再寫入註解
+                                if (ScriptWorksheet.Cells[row, 8].Value != null)
+                                {
+                                    //excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AddComment(ScriptWorksheet.Cells[row, 8].Text);
+                                    ///繼續寫
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 檢查Script、Excel、Html、Html column
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckTextboxNull_or_NoSuchFile()
+        {
             if (!File.Exists(scripttextBox.Text))
             {
-                MessageBox.Show("找不到Script\n" + htmltextBox.Text);
-                return;
+                MessageBox.Show("找不到Script\n" + scripttextBox.Text);
+                return false;
             }
             if (!File.Exists(exceltextBox.Text))
             {
                 MessageBox.Show("找不到Excel\n" + exceltextBox.Text);
-                return;
+                return false;
             }
             if (!File.Exists(htmltextBox.Text))
             {
                 MessageBox.Show("找不到HTML\n" + htmltextBox.Text);
-                return;
+                return false;
             }
-            if(htmlcolumntextBox.Text==""|| int.Parse(htmlcolumntextBox.Text)<0)
+            if (htmlcolumntextBox.Text == "" || int.Parse(htmlcolumntextBox.Text) < 0)
             {
                 MessageBox.Show("請輸入正確Html Column");
-                return;
+                return false;
             }
-            //先檢查再寫入
-
-
+            return true;
         }
 
         /// <summary>
-        /// 開始讀檔寫入
+        /// 輸入HTML路徑，回傳Datatable
         /// </summary>
-        /// <param name="script"></param>
-        /// <param name="excel"></param>
         /// <param name="html"></param>
-        private void WriteToExcel(FileInfo script,FileInfo excel ,FileInfo html)
+        /// <returns>Html Table</returns>
+        public DataTable GetHtmlTable(string htmlpath)
         {
+            string html_string;
+            using (var fs = new FileStream(htmlpath, FileMode.Open, FileAccess.Read))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    html_string = sr.ReadToEnd();
+                }
+            }
 
+            var datatable = new DataTable();
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html_string);
+            foreach (HtmlNode table in doc.DocumentNode.SelectNodes("//table"))
+            {
+                foreach (HtmlNode row in table.SelectNodes("tr"))
+                {
+                    var headerCells = row.SelectNodes("th");
+                    // add column name
+                    if (headerCells != null)
+                    {
+                        for (int i = 0; i < headerCells.Count; i++)
+                        {
+                            datatable.Columns.Add(Convert.ToChar('A' + i).ToString());
+                        }
+                    }
+                    // add th
+                    if (headerCells != null)
+                    {
+                        var dataRow = datatable.NewRow();
+                        for (int i = 0; i < headerCells.Count; i++)
+                        {
+                            dataRow[i] = headerCells[i].InnerText;
+                        }
+                        datatable.Rows.Add(dataRow);
+                    }
+                    // add td
+                    var dataCells = row.SelectNodes("td");
+                    if (dataCells != null)
+                    {
+                        var dataRow = datatable.NewRow();
+                        for (int i = 0; i < dataCells.Count; i++)
+                        {
+                            dataRow[i] = dataCells[i].InnerText;
+                        }
+                        datatable.Rows.Add(dataRow);
+                    }
+                }
+            }
+            return datatable;
         }
+
+
 
     }
 }
