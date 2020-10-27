@@ -314,7 +314,43 @@ namespace HtmlToExcel
             return datatable;
         }
 
+        /// <summary>
+        /// 按下開啟script按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(scripttextBox.Text))
+            {
+                System.Diagnostics.Process.Start(scripttextBox.Text);
+            }
+        }
 
+        /// <summary>
+        /// 按下開啟Excel按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(exceltextBox.Text))
+            {
+                System.Diagnostics.Process.Start(exceltextBox.Text);
+            }
+        }
 
+        /// <summary>
+        /// 按下開啟Html按鈕
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(htmltextBox.Text))
+            {
+                System.Diagnostics.Process.Start(htmltextBox.Text);
+            }
+        }
     }
 }
