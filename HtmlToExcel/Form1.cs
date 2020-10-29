@@ -182,47 +182,152 @@ namespace HtmlToExcel
                 {
                     //要寫入的Excel的工作表清單
                     ExcelWorksheets excelWorksheets = excelPackage.Workbook.Worksheets;
-                    //紀錄一些字串
+                    //紀錄字串
                     List<string> HTMLSuccessString = new List<string> { "Success", "sucess", "Pass", "pass" };
                     List<string> HTMLFailString = new List<string> { "Fail", "fail", "Skip", "skip", "Stop", "stop" };
                     List<string> UsedSuccessString = new List<string>();  //紀錄寫入過的Success字眼
                     List<string> UsedFailString = new List<string>(); //紀錄寫入過的Fail字眼
 
-                    for (int row = 2; row <= ScriptWorksheet.Dimension.Rows; row++)
+                    bool MustFill = true;
+                    for (int row = 4; row <= ScriptWorksheet.Dimension.Rows; row++)
                     {
+                        //檢查Script必填欄位
+                        MustFill = true;
+                        string Mustfillstring = "[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + " ";
+                        if (ScriptWorksheet.Cells[row, 1].Value == null)  //htmlNo
+                        {
+                            Mustfillstring += ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 1].ToString() + "]" + " HtmlNo. ，";
+                            MustFill = false;
+                        }
+                        if (ScriptWorksheet.Cells[row, 2].Value == null) //Sheet
+                        {
+                            Mustfillstring += ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 2].ToString() + "]" + " Sheet ，";
+                            MustFill = false;
+                        }
+                        if (ScriptWorksheet.Cells[row, 3].Value == null) //Cell
+                        {
+                            Mustfillstring += ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 3].ToString() + "]" + " Cell ，";
+                            MustFill = false;
+                        }
+                        if (ScriptWorksheet.Cells[row, 4].Value == null) //Success
+                        {
+                            Mustfillstring += ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 4].ToString() + "]" + " Success ，";
+                            MustFill = false;
+                        }
+                        if (ScriptWorksheet.Cells[row, 6].Value == null) //Fail
+                        {
+                            Mustfillstring += ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 6].ToString() + "]" + " Fail ，";
+                            MustFill = false;
+                        }
+                        if(MustFill == false)
+                        {
+                            richTextBox1.AppendText(Mustfillstring);
+                            continue;
+                        }
+
                         //如果HtmlNo大於實際HTML Row則Continue不寫入
                         if (int.Parse(ScriptWorksheet.Cells[row, 1].Text) > dataTable.Rows.Count - 1)
                         {
                             richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 1].ToString() + "]" + " HtmlNo." + ScriptWorksheet.Cells[row, 1].Text + "大於實際HTML欄位" + (dataTable.Rows.Count - 1) + "\n");
                             continue;
                         }
+
                         //檢查目標excel是否含有script中的sheet
                         if (!excelWorksheets.Any(sheet => sheet.Name == ScriptWorksheet.Cells[row, 2].Text))
                         {
                             richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + "[" + ScriptWorksheet.Cells[row, 2].ToString() + "]" + " Sheet." + ScriptWorksheet.Cells[row, 2].Text + "不在 " + excelPackage.File.Name + " 中\n");
                             continue;
                         }
+                        
+                        string WriteInLogString = "[Written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " " + ScriptWorksheet.Name + " Row"+row+" 寫入 "+excelPackage.File.Name+" ";
                         //開始寫入
+
+                        //addcomment 無效
+                        ScriptWorksheet.Cells["A1"].AddComment("Test", "");
+                        continue;
+
                         //如果讀到HTML Success
                         if (HTMLSuccessString.Contains((string)dataTable.Rows[int.Parse(ScriptWorksheet.Cells[row, 1].Text)][Htmlcolumn - 1]))
                         {
                             ExcelWorksheet excelWorksheet = excelWorksheets[ScriptWorksheet.Cells[row, 2].Text];
                             //如果是空欄位才寫入Success所有內容，否則跳過
-                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text] == null)
+                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value == null)
                             {
                                 //寫入Success以及附加內容
                                 excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 4].Text + ", " + ScriptWorksheet.Cells[row, 5].Text;
+                                WriteInLogString += excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper()+"]:\n          "+ ScriptWorksheet.Cells[row, 4].Text + ", " + ScriptWorksheet.Cells[row, 5].Text+ "\n";
                                 //script註解欄有值再寫入註解
                                 if (ScriptWorksheet.Cells[row, 8].Value != null)
                                 {
-                                    //excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AddComment(ScriptWorksheet.Cells[row, 8].Text);
-                                    ///繼續寫
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AddComment(ScriptWorksheet.Cells[row, 8].Text,"");
+                                    WriteInLogString += "          註解: " + ScriptWorksheet.Cells[row, 8].Text + "\n";
+                                }
+                                //Note
+                                if (ScriptWorksheet.Cells[row, 9].Value != null)
+                                {
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value = (ScriptWorksheet.Cells[row, 10].Text, "");
+                                    WriteInLogString += "          Note["+ excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
                                 }
                             }
-
+                            UsedSuccessString.Add(ScriptWorksheet.Cells[row, 4].Text);
+                            richTextBox1.AppendText(WriteInLogString);
+                            continue;
                         }
-
+                        //如果讀到HTML Fail
+                        else if (HTMLFailString.Contains((string)dataTable.Rows[int.Parse(ScriptWorksheet.Cells[row, 1].Text)][Htmlcolumn - 1]))
+                        {
+                            ExcelWorksheet excelWorksheet = excelWorksheets[ScriptWorksheet.Cells[row, 2].Text];
+                            //空欄位直接寫入 或 判斷欄位第一個字眼是否出現在success字眼，有則覆蓋
+                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value == null || UsedSuccessString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(',')[0]))
+                            {
+                                //寫入Fail以及附加內容
+                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text;
+                                WriteInLogString += excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n          " + ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text + "\n";
+                                //script註解欄有值再寫入註解
+                                if (ScriptWorksheet.Cells[row, 8].Value != null)
+                                {
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AddComment(ScriptWorksheet.Cells[row, 8].Text, "");
+                                    WriteInLogString += "          註解: " + ScriptWorksheet.Cells[row, 8].Text + "\n";
+                                }
+                                //Note
+                                if (ScriptWorksheet.Cells[row, 9].Value != null)
+                                {
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value = (ScriptWorksheet.Cells[row, 10].Text, "");
+                                    WriteInLogString += "          Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
+                                }
+                                UsedFailString.Add(ScriptWorksheet.Cells[row, 4].Text);
+                                richTextBox1.AppendText(WriteInLogString);
+                                continue;
+                            }
+                            //判斷欄位第一個字眼是否出現在fail字眼, 有則續寫
+                            else if (UsedFailString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(',')[0]))
+                            {
+                                //寫入Fail以及附加內容
+                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value += ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text;
+                                WriteInLogString += excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n          " + ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text + "\n";
+                                //script註解欄有值再寫入註解
+                                if (ScriptWorksheet.Cells[row, 8].Value != null)
+                                {
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AddComment(ScriptWorksheet.Cells[row, 8].Text, "");
+                                    WriteInLogString += "          註解: " + ScriptWorksheet.Cells[row, 8].Text + "\n";
+                                }
+                                //Note
+                                if (ScriptWorksheet.Cells[row, 9].Value != null)
+                                {
+                                    excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value += ScriptWorksheet.Cells[row, 10].Text;
+                                    WriteInLogString += "          Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
+                                }
+                                UsedFailString.Add(ScriptWorksheet.Cells[row, 4].Text);
+                                richTextBox1.AppendText(WriteInLogString);
+                            }
+                        }
+                        //沒讀到Success或Fail
+                        else
+                        {
+                            richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") +new FileInfo(htmltextBox.Text).Name +" No." + ScriptWorksheet.Cells[row, 1].Text + "無法判斷Success或Fail");
+                        }
                     }
+                    excelPackage.Save();
                 }
             }
         }
