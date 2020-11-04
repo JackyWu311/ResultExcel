@@ -191,7 +191,7 @@ namespace HtmlToExcel
                     MessageBox.Show("請選擇正確格式工作表");
                     return;
                 }
-                richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") + "\nScript: " + scripttextBox.Text + "\nScript Sheet: " + ScriptWorksheet.Name + "\nExcel: " + exceltextBox.Text + "\nHTML: " + htmltextBox.Text + "\nHTML Column: " + Htmlcolumn + "\n------------------------------------------------------------------------------------------------------\nStart Writing:\n";
+                richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") + "\nScript: " + scripttextBox.Text + "\nScript Sheet: " + ScriptWorksheet.Name + "\nExcel: " + exceltextBox.Text + "\nHTML: " + htmltextBox.Text + "\nHTML Column: " + Htmlcolumn + "\n\nStart Writing:\n------------------------------------------------------------------------------------------------------\n";
 
                 //讀取指定的Html column並傳回dataTable
                 DataTable dataTable = GetHtmlTable(htmltextBox.Text);
@@ -369,7 +369,7 @@ namespace HtmlToExcel
                         }
                     }
 
-                    richTextBox1.AppendText("------------------------------------------------------------------------------------------------------\nFinished\nLog "+ time.ToString("yyyyMMdd-HH-mm-ss")+".log Saved.");
+                    richTextBox1.AppendText("------------------------------------------------------------------------------------------------------\nFinished\n"+ time.ToString("yyyyMMdd-HH-mm-ss")+".log Saved.");
                     richTextBox1.SaveFile(@"log\" + time.ToString("yyyyMMdd-HH-mm-ss") + ".log", RichTextBoxStreamType.PlainText);
                     excelPackage.Save();
                 }
