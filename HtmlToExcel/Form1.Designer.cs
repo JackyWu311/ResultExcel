@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,8 +59,6 @@
             this.htmltextBox.ReadOnly = true;
             this.htmltextBox.Size = new System.Drawing.Size(495, 27);
             this.htmltextBox.TabIndex = 0;
-            this.htmltextBox.Text = "C:\\Users\\jackywu20050\\Desktop\\sample.html";
-            this.htmltextBox.DoubleClick += new System.EventHandler(this.htmltextBox_DoubleClick);
             // 
             // exceltextBox
             // 
@@ -71,8 +70,6 @@
             this.exceltextBox.ReadOnly = true;
             this.exceltextBox.Size = new System.Drawing.Size(494, 27);
             this.exceltextBox.TabIndex = 1;
-            this.exceltextBox.Text = "C:\\Users\\jackywu20050\\Desktop\\test.xlsx";
-            this.exceltextBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.exceltextBox_MouseDoubleClick);
             // 
             // scripttextBox
             // 
@@ -84,7 +81,6 @@
             this.scripttextBox.ReadOnly = true;
             this.scripttextBox.Size = new System.Drawing.Size(494, 27);
             this.scripttextBox.TabIndex = 2;
-            this.scripttextBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.scripttextBox_MouseDoubleClick);
             // 
             // htmlcolumntextBox
             // 
@@ -154,6 +150,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
@@ -240,6 +237,17 @@
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
+            // button4
+            // 
+            this.button4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button4.Location = new System.Drawing.Point(452, 167);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(95, 37);
+            this.button4.TabIndex = 14;
+            this.button4.Text = "Log Folder";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 16F);
@@ -276,6 +284,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button4;
     }
 }
 
