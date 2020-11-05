@@ -210,7 +210,7 @@ namespace HtmlToExcel
                     bool MustFill = true;
                     for (int row = 4; row <= ScriptWorksheet.Dimension.Rows; row++)
                     {
-                        //檢查Script必填欄位
+                        //檢查Script每行Row必填欄位
                         MustFill = true;
                         string Mustfillstring = "[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + ScriptPackage.File.Name + " Sheet: " + ScriptWorksheet.Name + " ";
                         if (ScriptWorksheet.Cells[row, 1].Value == null)  //htmlNo
@@ -282,7 +282,7 @@ namespace HtmlToExcel
                                 {
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value = ScriptWorksheet.Cells[row, 10].Text;
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].AutoFitColumns();
-                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
+                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString().ToUpper() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
                                 }
                             }
                             excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AutoFitColumns();
@@ -321,7 +321,7 @@ namespace HtmlToExcel
                                 {
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value = ScriptWorksheet.Cells[row, 10].Text+"\n";
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].AutoFitColumns();
-                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
+                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString().ToUpper() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
                                 }
                                 UsedFailString.Add(ScriptWorksheet.Cells[row, 6].Text);
                                 excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AutoFitColumns();
@@ -355,7 +355,7 @@ namespace HtmlToExcel
                                 {
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].Value += ScriptWorksheet.Cells[row, 10].Text+"\n";
                                     excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].AutoFitColumns();
-                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
+                                    WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString().ToUpper() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
                                 }
                                 UsedFailString.Add(ScriptWorksheet.Cells[row, 6].Text);
                                 excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AutoFitColumns();
