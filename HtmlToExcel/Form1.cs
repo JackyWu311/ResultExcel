@@ -43,7 +43,8 @@ namespace HtmlToExcel
             {
                 Directory.CreateDirectory(path);
             }
-            dialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Script";
+            //dialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Script";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -180,15 +181,15 @@ namespace HtmlToExcel
                 //script是空的或小於4行則return
                 try
                 {
-                    if (ScriptWorksheet.Dimension.Rows < 4)
+                    if (ScriptWorksheet.Dimension.End.Row < 4)
                     {
-                        MessageBox.Show("請選擇正確格式工作表");
+                        MessageBox.Show("Script行數"+ScriptWorksheet.Dimension.End.Row+"小於4行\n請選擇正確格式工作表");
                         return;
                     }
                 }
-                catch
+                catch(Exception E)
                 {
-                    MessageBox.Show("請選擇正確格式工作表");
+                    MessageBox.Show(E.ToString()+"\n請選擇正確格式工作表");
                     return;
                 }
                 richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") + "\nScript: " + scripttextBox.Text + "\nScript Sheet: " + ScriptWorksheet.Name + "\nExcel: " + exceltextBox.Text + "\nHTML: " + htmltextBox.Text + "\nHTML Column: " + Htmlcolumn + "\n\nStart Writing:\n------------------------------------------------------------------------------------------------------\n";
@@ -208,7 +209,7 @@ namespace HtmlToExcel
                     List<string> UsedFailString = new List<string>(); //紀錄寫入過的Fail字眼
 
                     bool MustFill = true;
-                    for (int row = 4; row <= ScriptWorksheet.Dimension.Rows; row++)
+                    for (int row = 4; row <= ScriptWorksheet.Dimension.End.Row; row++)
                     {
                         //檢查Script每行Row必填欄位
                         MustFill = true;

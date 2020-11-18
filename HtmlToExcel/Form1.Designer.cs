@@ -89,7 +89,7 @@
             this.htmlcolumntextBox.Name = "htmlcolumntextBox";
             this.htmlcolumntextBox.Size = new System.Drawing.Size(50, 27);
             this.htmlcolumntextBox.TabIndex = 3;
-            this.htmlcolumntextBox.Text = "7";
+            this.htmlcolumntextBox.Text = "8";
             this.htmlcolumntextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.htmlcolumntextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
