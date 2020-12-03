@@ -39,6 +39,7 @@
             this.runbutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@
             this.htmltextBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.htmltextBox.Name = "htmltextBox";
             this.htmltextBox.ReadOnly = true;
-            this.htmltextBox.Size = new System.Drawing.Size(495, 27);
+            this.htmltextBox.Size = new System.Drawing.Size(560, 27);
             this.htmltextBox.TabIndex = 0;
             // 
             // exceltextBox
@@ -68,7 +69,7 @@
             this.exceltextBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.exceltextBox.Name = "exceltextBox";
             this.exceltextBox.ReadOnly = true;
-            this.exceltextBox.Size = new System.Drawing.Size(494, 27);
+            this.exceltextBox.Size = new System.Drawing.Size(559, 27);
             this.exceltextBox.TabIndex = 1;
             // 
             // scripttextBox
@@ -79,7 +80,7 @@
             this.scripttextBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.scripttextBox.Name = "scripttextBox";
             this.scripttextBox.ReadOnly = true;
-            this.scripttextBox.Size = new System.Drawing.Size(494, 27);
+            this.scripttextBox.Size = new System.Drawing.Size(559, 27);
             this.scripttextBox.TabIndex = 2;
             // 
             // htmlcolumntextBox
@@ -129,7 +130,7 @@
             // runbutton
             // 
             this.runbutton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.runbutton.Location = new System.Drawing.Point(555, 167);
+            this.runbutton.Location = new System.Drawing.Point(620, 167);
             this.runbutton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.runbutton.Name = "runbutton";
             this.runbutton.Size = new System.Drawing.Size(94, 37);
@@ -150,6 +151,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
@@ -168,13 +170,26 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(654, 208);
+            this.panel1.Size = new System.Drawing.Size(719, 208);
             this.panel1.TabIndex = 9;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(299, 176);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(212, 20);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Open excel after running.";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
             this.button4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button4.Location = new System.Drawing.Point(452, 167);
+            this.button4.Location = new System.Drawing.Point(517, 167);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(95, 37);
             this.button4.TabIndex = 14;
@@ -185,7 +200,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(594, 128);
+            this.button3.Location = new System.Drawing.Point(659, 128);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(55, 32);
             this.button3.TabIndex = 13;
@@ -196,7 +211,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(594, 79);
+            this.button2.Location = new System.Drawing.Point(659, 79);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(55, 32);
             this.button2.TabIndex = 12;
@@ -207,7 +222,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(594, 9);
+            this.button1.Location = new System.Drawing.Point(659, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(55, 32);
             this.button1.TabIndex = 11;
@@ -232,7 +247,7 @@
             this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Close;
             this.comboBox1.Location = new System.Drawing.Point(92, 50);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(494, 24);
+            this.comboBox1.Size = new System.Drawing.Size(559, 24);
             this.comboBox1.TabIndex = 9;
             // 
             // richTextBox1
@@ -244,7 +259,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 208);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(654, 448);
+            this.richTextBox1.Size = new System.Drawing.Size(719, 466);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
@@ -252,7 +267,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 656);
+            this.ClientSize = new System.Drawing.Size(719, 674);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -285,6 +300,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

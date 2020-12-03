@@ -64,23 +64,6 @@ namespace HtmlToExcel
         }
 
         /// <summary>
-        /// 點2下打開Script
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void scripttextBox_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (File.Exists(scripttextBox.Text))
-            {
-                System.Diagnostics.Process.Start(scripttextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show("找不到Script\n" + scripttextBox.Text);
-            }
-        }
-
-        /// <summary>
         /// 選擇要寫入的Excel
         /// </summary>
         /// <param name="sender"></param>
@@ -100,23 +83,6 @@ namespace HtmlToExcel
         }
 
         /// <summary>
-        /// 點2下開啟要寫入的Excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void exceltextBox_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (File.Exists(exceltextBox.Text))
-            {
-                System.Diagnostics.Process.Start(exceltextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show("找不到Excel\n" + exceltextBox.Text);
-            }
-        }
-
-        /// <summary>
         /// 選擇要讀取的HTML
         /// </summary>
         /// <param name="sender"></param>
@@ -129,23 +95,6 @@ namespace HtmlToExcel
             dialog.Filter = "HTML|*.html";
             if (dialog.ShowDialog() == DialogResult.OK)
                 htmltextBox.Text = dialog.FileName;
-        }
-
-        /// <summary>
-        /// 點2下打開HTML
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void htmltextBox_DoubleClick(object sender, EventArgs e)
-        {
-            if (File.Exists(htmltextBox.Text))
-            {
-                System.Diagnostics.Process.Start(htmltextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show("找不到HTML\n" + htmltextBox.Text);
-            }
         }
 
         /// <summary>
@@ -192,7 +141,17 @@ namespace HtmlToExcel
                     MessageBox.Show(E.ToString()+"\n請選擇正確格式工作表");
                     return;
                 }
-                richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") + "\nScript: " + scripttextBox.Text + "\nScript Sheet: " + ScriptWorksheet.Name + "\nExcel: " + exceltextBox.Text + "\nHTML: " + htmltextBox.Text + "\nHTML Column: " + Htmlcolumn + "\n\nStart Writing:\n------------------------------------------------------------------------------------------------------\n";
+                //用time附加檔名後建立新的Excel
+                string NewExcelName = exceltextBox.Text.Replace(".xlsx", time.ToString("__yyyyMMdd-HH-mm-ss") + ".xlsx");
+
+                richTextBox1.Text = time.ToString("yyyyMMdd-HH:mm:ss") 
+                    + "\nScript: " + scripttextBox.Text 
+                    + "\nScript Sheet: " + ScriptWorksheet.Name 
+                    + "\nExcel: " + exceltextBox.Text 
+                    + "\nWill save as: \n       " + NewExcelName
+                    + "\nHTML: " + htmltextBox.Text 
+                    + "\nHTML Column: " + Htmlcolumn 
+                    + "\n\nStart Writing:\n------------------------------------------------------------------------------------------------------\n";
 
                 //讀取指定的Html column並傳回dataTable
                 DataTable dataTable = GetHtmlTable(htmltextBox.Text);
@@ -269,8 +228,8 @@ namespace HtmlToExcel
                             if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value == null)
                             {
                                 //寫入Success以及附加內容
-                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 4].Text + ", " + ScriptWorksheet.Cells[row, 5].Text;
-                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 4].Text + ", " + ScriptWorksheet.Cells[row, 5].Text + "\n";
+                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 4].Text + " " + ScriptWorksheet.Cells[row, 5].Text;
+                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 4].Text + " " + ScriptWorksheet.Cells[row, 5].Text + "\n";
                                 //script註解欄有值再寫入註解
                                 if (ScriptWorksheet.Cells[row, 8].Value != null)
                                 {
@@ -296,11 +255,11 @@ namespace HtmlToExcel
                         {
                             ExcelWorksheet excelWorksheet = excelWorksheets[ScriptWorksheet.Cells[row, 2].Text];
                             //空欄位直接寫入 或 判斷欄位第一個字眼是否出現在success字眼，有則覆蓋
-                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value == null || UsedSuccessString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(',')[0]))
+                            if (excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value == null || UsedSuccessString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(' ')[0]))
                             {
                                 //寫入Fail以及附加內容
-                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text+"\n";
-                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text + "\n";
+                                excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value = ScriptWorksheet.Cells[row, 6].Text + " " + ScriptWorksheet.Cells[row, 7].Text+"\n";
+                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 6].Text + " " + ScriptWorksheet.Cells[row, 7].Text + "\n";
                                 //script註解欄有值再寫入註解
                                 if (ScriptWorksheet.Cells[row, 8].Value != null)
                                 {
@@ -330,11 +289,11 @@ namespace HtmlToExcel
                                 continue;
                             }
                             //判斷欄位第一個字眼是否出現在fail字眼, 有則續寫
-                            else if (UsedFailString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(',')[0]))
+                            else if (UsedFailString.Contains(excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Text.Split(' ')[0]))
                             {
                                 //寫入Fail以及附加內容
                                 excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].Value += ScriptWorksheet.Cells[row, 7].Text+"\n";
-                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 6].Text + ", " + ScriptWorksheet.Cells[row, 7].Text + "\n";
+                                WriteInLogString += " Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]:\n             " + ScriptWorksheet.Cells[row, 6].Text + " " + ScriptWorksheet.Cells[row, 7].Text + "\n";
                                 //script註解欄有值再寫入註解
                                 if (ScriptWorksheet.Cells[row, 8].Value != null)
                                 {
@@ -361,18 +320,28 @@ namespace HtmlToExcel
                                 UsedFailString.Add(ScriptWorksheet.Cells[row, 6].Text);
                                 excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AutoFitColumns();
                                 richTextBox1.AppendText(WriteInLogString);
+                                continue;
                             }
                         }
                         //沒讀到Success或Fail
                         else
                         {
                             richTextBox1.AppendText("[Not written]" + DateTime.Now.ToString(" yyyyMMdd-HH:mm:ss ") + new FileInfo(htmltextBox.Text).Name + " No." + ScriptWorksheet.Cells[row, 1].Text + "無法判斷Success或Fail");
+                            continue;
                         }
                     }
-
-                    richTextBox1.AppendText("------------------------------------------------------------------------------------------------------\nFinished\n"+ time.ToString("yyyyMMdd-HH-mm-ss")+".log Saved.");
+                    excelPackage.SaveAs(new FileInfo(NewExcelName));
+                    richTextBox1.AppendText("Saved as : " + NewExcelName);
+                    richTextBox1.AppendText("\n------------------------------------------------------------------------------------------------------\nFinished\n"+ time.ToString("yyyyMMdd-HH-mm-ss")+".log Saved.");                    
                     richTextBox1.SaveFile(@"log\" + time.ToString("yyyyMMdd-HH-mm-ss") + ".log", RichTextBoxStreamType.PlainText);
-                    excelPackage.Save();
+                    //開啟新的Excel
+                    if (checkBox1.Checked)
+                    {
+                        if (File.Exists(NewExcelName))
+                        {
+                            Process.Start(NewExcelName);
+                        }
+                    }
                 }
             }
         }
