@@ -245,6 +245,11 @@ namespace HtmlToExcel
                                     WriteInLogString += "             Note[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 9].Text].ToString().ToUpper() + "]: " + ScriptWorksheet.Cells[row, 10].Text + "\n";
                                 }
                             }
+                            else
+                            {
+                                WriteInLogString = WriteInLogString.Replace("[Written]", "[SKIP]");
+                                WriteInLogString = WriteInLogString.Replace("寫入 " + excelPackage.File.Name, excelPackage.File.Name+" Sheet: " + excelWorksheet.Name + " Cell[" + excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].ToString().ToUpper() + "]: 已經有填入值。\n\n");
+                            }
                             excelWorksheet.Cells[ScriptWorksheet.Cells[row, 3].Text].AutoFitColumns();
                             UsedSuccessString.Add(ScriptWorksheet.Cells[row, 4].Text);
                             richTextBox1.AppendText(WriteInLogString);
@@ -334,14 +339,6 @@ namespace HtmlToExcel
                     richTextBox1.AppendText("Saved as : " + NewExcelName);
                     richTextBox1.AppendText("\n------------------------------------------------------------------------------------------------------\nFinished\n"+ time.ToString("yyyyMMdd-HH-mm-ss")+".log Saved.");                    
                     richTextBox1.SaveFile(@"log\" + time.ToString("yyyyMMdd-HH-mm-ss") + ".log", RichTextBoxStreamType.PlainText);
-                    //開啟新的Excel
-                    if (checkBox1.Checked)
-                    {
-                        if (File.Exists(NewExcelName))
-                        {
-                            Process.Start(NewExcelName);
-                        }
-                    }
                 }
             }
         }
